@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prairie Build Co. — Winnipeg Construction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique:wght@400;700;900&family=Lexend:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Warm copper/amber + deep navy — complements the golden construction video */
+  --clr-primary:       #b87d3a;
+  --clr-primary-dark:  #8f5e24;
+  --clr-primary-light: #d4974e;
+  --clr-secondary:     #1e3a5f;
+  --clr-text-primary:  #1c1e24;
+  --clr-text-muted:    #7a7268;
+  --clr-text-placeholder: #c4bdb4;
+  --clr-bg:      #faf8f5;
+  --clr-surface: #ede8de;
+  --clr-success: #3a7d5e;
+  --clr-warning: #c8903b;
+  --clr-info:    #3a6fa8;
+  --clr-dark:    #12141a;
+  --shadow:      0 0 2rem rgba(0,0,0,.08);
+  --r-sm: 0.5rem; --r-md: 1rem; --r-lg: 2rem;
+  --max-w: 75rem;
+  --fh: 'Zen Kaku Gothic Antique', sans-serif;
+  --fb: 'Lexend', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--fb);
+  background: var(--clr-bg);
+  color: var(--clr-text-primary);
+  overflow-x: hidden;
+  line-height: 1.5;
+}
+
+@keyframes loop_1st { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+@keyframes slideIdling { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes pulseRing { 0% { transform: scale(0.9); opacity: 0.7; } 100% { transform: scale(1.6); opacity: 0; } }
+@keyframes heroReveal { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes barGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+
+/* ── SCROLL REVEAL ── */
+.sr { opacity: 0; transition: opacity 0.6s cubic-bezier(.22,1,.36,1), transform 0.6s cubic-bezier(.22,1,.36,1); }
+.sr.sr-up    { transform: translateY(32px); }
+.sr.sr-left  { transform: translateX(-40px); }
+.sr.sr-right { transform: translateX(40px); }
+.sr.sr-scale { transform: scale(0.93); }
+.sr.in { opacity: 1; transform: none; }
+
+/* ── UTILITY ── */
+.container { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+.label { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--clr-secondary); margin-bottom: 12px; }
+.section-title { font-family: var(--fh); font-weight: 700; font-size: clamp(1.75rem, 3.5vw, 2.75rem); line-height: 1.15; color: var(--clr-text-primary); margin-bottom: 16px; }
+.section-sub { font-size: 1rem; color: var(--clr-text-muted); max-width: 36rem; line-height: 1.75; margin-bottom: 48px; }
+.divider { height: 3px; width: 48px; border-radius: 2px; background: var(--clr-primary); margin-bottom: 20px; transform-origin: left; transform: scaleX(0); transition: transform 0.5s 0.2s cubic-bezier(.22,1,.36,1); }
+.divider.in { transform: scaleX(1); }
+
+/* ── BUTTONS ── */
+.btn { font-family: var(--fb); font-weight: 700; font-size: 0.9375rem; padding: 12px 24px; border-radius: var(--r-lg); border: none; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; line-height: 1; transition: opacity 150ms ease-out, transform 150ms ease-out; }
+.btn:hover  { opacity: 0.85; transform: translateY(-2px); }
+.btn:active { transform: translateY(0); opacity: 1; }
+.btn-primary  { background: var(--clr-primary); color: #fff; }
+.btn-ghost    { background: rgba(255,255,255,0.12); color: #fff; border: 1.5px solid rgba(255,255,255,0.4); backdrop-filter: none; }
+.btn-ghost:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.7); }
+.btn-white    { background: #fff; color: var(--clr-primary-dark); }
+.btn-outline-white { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,0.5); }
+.btn-outline-white:hover { border-color: #fff; }
+.btn-sm { font-size: 0.8125rem; padding: 8px 16px; }
+
+/* ── NAV ── */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; padding: 0 24px; transition: background 0.3s, box-shadow 0.3s; }
+nav.solid { background: rgba(255,255,255,0.97); box-shadow: var(--shadow); }
+nav.transparent { background: transparent; }
+.nav-inner { display: flex; align-items: center; justify-content: space-between; height: 68px; gap: 16px; max-width: var(--max-w); margin: 0 auto; }
+.nav-logo { font-family: var(--fh); font-weight: 700; font-size: 1.1875rem; text-decoration: none; display: flex; align-items: center; gap: 10px; transition: color 0.3s; }
+nav.transparent .nav-logo { color: #fff; }
+nav.solid .nav-logo { color: var(--clr-text-primary); }
+.nav-logo-icon { width: 36px; height: 36px; border-radius: var(--r-sm); background: var(--clr-primary); display: flex; align-items: center; justify-content: center; font-size: 1rem; color: #fff; flex-shrink: 0; }
+.nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+.nav-links a { font-size: 0.875rem; font-weight: 500; text-decoration: none; transition: color 0.2s, opacity 0.2s; }
+nav.transparent .nav-links a { color: rgba(255,255,255,0.85); }
+nav.transparent .nav-links a:hover { color: #fff; }
+nav.solid .nav-links a { color: var(--clr-text-muted); }
+nav.solid .nav-links a:hover { color: var(--clr-text-primary); }
+.nav-hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+.nav-hamburger span { display: block; width: 22px; height: 2px; border-radius: 2px; transition: background 0.3s; }
+nav.transparent .nav-hamburger span { background: #fff; }
+nav.solid .nav-hamburger span { background: var(--clr-text-primary); }
+
+/* ══════════════════════════════════════════════
+   SCROLL-DRIVEN VIDEO HERO
+══════════════════════════════════════════════ */
+#hero-scroll-driver {
+  /* tall enough to give scroll room for the full video duration */
+  height: 600vh;
+  position: relative;
+}
+#hero-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Three.js canvas fills the sticky container */
+#hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Gradient overlay: dark at top (nav) and bottom (text legibility) */
+#hero-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom,
+      rgba(8,7,6,0.60) 0%,
+      rgba(8,7,6,0.08) 28%,
+      rgba(8,7,6,0.08) 55%,
+      rgba(8,7,6,0.70) 100%
+    );
+}
+/* Fade bottom of hero into the page background colour */
+#hero-fade {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 240px;
+  pointer-events: none;
+  z-index: 3;
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    rgba(250,248,245,0.15) 35%,
+    rgba(250,248,245,0.65) 65%,
+    rgba(250,248,245,1.00) 100%
+  );
+}
+
+/* Hero text content */
+#hero-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 24px 72px;
+  pointer-events: none;
+}
+#hero-content .container { pointer-events: auto; }
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(184,125,58,0.18);
+  color: rgba(255,255,255,0.92);
+  font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 6px 14px; border-radius: var(--r-lg);
+  margin-bottom: 20px;
+  border: 1px solid rgba(212,151,78,0.35);
+  animation: heroReveal 0.6s ease-out both;
+}
+.hero-badge-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--clr-primary-light);
+  position: relative;
+}
+.hero-badge-dot::after {
+  content: '';
+  position: absolute; inset: -4px;
+  border-radius: 50%;
+  border: 1.5px solid var(--clr-primary-light);
+  animation: pulseRing 2s ease-out infinite;
+}
+.hero-title {
+  font-family: var(--fh); font-weight: 700;
+  font-size: clamp(2.75rem, 6.5vw, 5.5rem);
+  line-height: 1.05; letter-spacing: -0.025em;
+  color: #ffffff;
+  margin-bottom: 20px;
+  text-shadow: 0 2px 24px rgba(0,0,0,0.3);
+  animation: heroReveal 0.6s 0.1s ease-out both;
+}
+.hero-title em { font-style: normal; color: var(--clr-primary-light); }
+.hero-sub {
+  font-size: clamp(1rem, 1.8vw, 1.1875rem);
+  color: rgba(255,255,255,0.8);
+  max-width: 36rem;
+  line-height: 1.75;
+  margin-bottom: 32px;
+  animation: heroReveal 0.6s 0.2s ease-out both;
+}
+.hero-actions {
+  display: flex; gap: 12px; flex-wrap: wrap;
+  animation: heroReveal 0.6s 0.3s ease-out both;
+}
+
+/* scroll hint */
+.scroll-hint {
+  position: absolute;
+  bottom: 28px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  color: rgba(255,255,255,0.5);
+  font-size: 0.6875rem; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  pointer-events: none;
+  animation: fadeIn 1s 1s ease-out both;
+  transition: opacity 0.4s;
+}
+.scroll-hint.hidden { opacity: 0; }
+.scroll-hint-arrow { animation: slideIdling 1.8s ease-in-out infinite; font-size: 1.25rem; }
+
+/* progress bar */
+#video-progress {
+  position: absolute;
+  bottom: 0; left: 0;
+  height: 3px;
+  background: var(--clr-primary);
+  width: 0%;
+  transition: width 0.1s linear;
+  pointer-events: none;
+}
+
+/* ── TICKER ── */
+.ticker { background: var(--clr-primary); padding: 13px 0; overflow: hidden; }
+.ticker-track { display: flex; width: max-content; animation: loop_1st 30s linear infinite; }
+.ticker-item { white-space: nowrap; padding: 0 28px; font-family: var(--fh); font-weight: 700; font-size: 0.875rem; color: #fff; letter-spacing: 0.06em; display: flex; align-items: center; gap: 14px; }
+.ticker-item::after { content: '◆'; font-size: 0.5rem; opacity: 0.55; }
+
+/* ── STATS ── */
+.stats-section { padding: 80px 0; }
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(196px, 1fr)); gap: 16px; }
+.stat-card { background: var(--clr-surface); border-radius: var(--r-lg); padding: 32px 24px; box-shadow: var(--shadow); }
+.stat-label { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--clr-secondary); margin-bottom: 8px; }
+.stat-value { font-family: var(--fh); font-weight: 700; font-size: 2.25rem; line-height: 1; color: var(--clr-text-primary); margin-bottom: 6px; }
+.stat-note { font-size: 0.8125rem; color: var(--clr-text-muted); }
+.stat-bar { height: 4px; border-radius: 2px; background: var(--clr-text-placeholder); margin-top: 16px; overflow: hidden; }
+.stat-bar-fill { height: 100%; border-radius: 2px; background: var(--clr-primary); transform-origin: left; transform: scaleX(0); }
+.stat-card.in .stat-bar-fill { animation: barGrow 0.8s 0.3s cubic-bezier(.22,1,.36,1) forwards; }
+
+/* ── SERVICES ── */
+.services-section { padding: 80px 0; background: var(--clr-bg); }
+.services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(288px, 1fr)); gap: 20px; }
+.service-card { background: var(--clr-surface); border-radius: var(--r-lg); padding: 36px 28px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 16px; transition: transform 200ms ease-out, box-shadow 200ms ease-out; }
+.service-card:hover { transform: translateY(-4px); box-shadow: 0 0.75rem 3rem rgba(0,0,0,.1); }
+.service-icon { width: 56px; height: 56px; border-radius: var(--r-md); background: var(--clr-bg); display: flex; align-items: center; justify-content: center; font-size: 1.625rem; box-shadow: 0 0 0 4px rgba(184,125,58,0.12); }
+.service-title { font-family: var(--fh); font-weight: 700; font-size: 1.125rem; color: var(--clr-text-primary); line-height: 1.3; }
+.service-desc { font-size: 0.9rem; color: var(--clr-text-muted); line-height: 1.75; flex: 1; }
+.service-badge { display: inline-block; padding: 4px 10px; border-radius: var(--r-lg); font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; align-self: flex-start; }
+.bg-teal   { background: rgba(184,125,58,0.12); color: var(--clr-primary-dark); }
+.bg-purple { background: rgba(30,58,95,0.10);   color: var(--clr-secondary); }
+.bg-gold   { background: rgba(184,125,58,0.15); color: var(--clr-primary-dark); }
+.bg-green  { background: rgba(58,125,94,0.12);  color: var(--clr-success); }
+
+/* ── PROCESS ── */
+.process-section { padding: 80px 0; }
+.process-list { display: flex; flex-direction: column; }
+.process-item { display: grid; grid-template-columns: 64px 1fr; gap: 0 24px; position: relative; }
+.process-item:not(:last-child)::before { content: ''; position: absolute; left: 31px; top: 56px; bottom: -8px; width: 2px; background: var(--clr-surface); }
+.process-num-col { display: flex; flex-direction: column; align-items: center; padding-top: 4px; }
+.process-num { width: 48px; height: 48px; border-radius: 50%; background: var(--clr-surface); border: 2px solid var(--clr-primary); display: flex; align-items: center; justify-content: center; font-family: var(--fh); font-weight: 700; font-size: 1rem; color: var(--clr-primary); flex-shrink: 0; }
+.process-body { padding: 0 0 40px 0; }
+.process-title { font-family: var(--fh); font-weight: 700; font-size: 1.125rem; color: var(--clr-text-primary); margin-bottom: 8px; line-height: 1.3; padding-top: 10px; }
+.process-desc { font-size: 0.9rem; color: var(--clr-text-muted); line-height: 1.75; }
+
+/* ── PROJECTS ── */
+.projects-section { padding: 80px 0; background: var(--clr-surface); }
+.projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.project-card { border-radius: var(--r-lg); overflow: hidden; background: var(--clr-bg); box-shadow: var(--shadow); transition: transform 200ms ease-out, box-shadow 200ms ease-out; }
+.project-card:hover { transform: translateY(-4px); box-shadow: 0 0.75rem 3rem rgba(0,0,0,.12); }
+.project-card.featured { grid-column: span 2; }
+.project-img { height: 200px; display: flex; align-items: flex-end; padding: 20px; position: relative; overflow: hidden; }
+.project-card.featured .project-img { height: 280px; }
+.project-img-bg { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 4rem; opacity: 0.18; }
+.proj-1 .project-img { background: linear-gradient(135deg, #5a3518 0%, #b87d3a 100%); }
+.proj-2 .project-img { background: linear-gradient(135deg, #0e2340 0%, #1e3a5f 100%); }
+.proj-3 .project-img { background: linear-gradient(135deg, #7a4a1a 0%, #d4974e 100%); }
+.proj-4 .project-img { background: linear-gradient(135deg, #1a2a3a 0%, #2d4a6b 100%); }
+.project-tag { position: relative; z-index: 1; background: rgba(255,255,255,0.2); color: #fff; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border-radius: var(--r-lg); }
+.project-body { padding: 20px 24px 24px; }
+.project-title { font-family: var(--fh); font-weight: 700; font-size: 1.0625rem; color: var(--clr-text-primary); margin-bottom: 6px; line-height: 1.3; }
+.project-meta { font-size: 0.8125rem; color: var(--clr-text-muted); }
+
+/* ── TESTIMONIALS ── */
+.testimonials-section { padding: 80px 0; }
+.testimonials-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+.testimonial-card { background: var(--clr-surface); border-radius: var(--r-lg); padding: 32px 28px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 16px; }
+.testimonial-stars { color: var(--clr-warning); font-size: 0.875rem; letter-spacing: 2px; }
+.testimonial-text { font-size: 0.9375rem; color: var(--clr-text-primary); line-height: 1.75; flex: 1; font-style: italic; }
+.testimonial-author { display: flex; align-items: center; gap: 12px; }
+.testimonial-avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--clr-primary-light), var(--clr-secondary)); display: flex; align-items: center; justify-content: center; font-family: var(--fh); font-weight: 700; font-size: 1rem; color: #fff; flex-shrink: 0; }
+.testimonial-name { font-family: var(--fh); font-weight: 700; font-size: 0.9375rem; color: var(--clr-text-primary); }
+.testimonial-role { font-size: 0.75rem; color: var(--clr-text-muted); margin-top: 2px; }
+
+/* ── CTA ── */
+.cta-section { background: var(--clr-primary); padding: 96px 24px; }
+.cta-inner { max-width: 52rem; margin: 0 auto; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 24px; }
+.cta-eyebrow { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.65); }
+.cta-title { font-family: var(--fh); font-weight: 700; font-size: clamp(2rem, 4.5vw, 3.25rem); color: #fff; line-height: 1.2; }
+.cta-sub { font-size: 1.0625rem; color: rgba(255,255,255,0.8); max-width: 34rem; line-height: 1.75; }
+.cta-actions { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+.cta-note { font-size: 0.75rem; color: rgba(255,255,255,0.5); }
+
+/* ── FOOTER ── */
+footer { background: var(--clr-dark); color: #fff; padding: 72px 24px 36px; }
+.footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; padding-bottom: 52px; border-bottom: 1px solid rgba(255,255,255,0.07); margin-bottom: 32px; }
+.footer-logo { font-family: var(--fh); font-weight: 700; font-size: 1.375rem; color: #fff; display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.footer-logo-icon { width: 32px; height: 32px; border-radius: var(--r-sm); background: var(--clr-primary); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
+.footer-desc { font-size: 0.875rem; color: rgba(255,255,255,0.5); line-height: 1.75; margin-bottom: 20px; max-width: 22rem; }
+.footer-social { display: flex; gap: 8px; }
+.footer-social a { width: 36px; height: 36px; border-radius: var(--r-sm); background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.55); font-size: 0.875rem; text-decoration: none; transition: background 150ms, color 150ms; }
+.footer-social a:hover { background: var(--clr-primary); color: #fff; }
+.footer-col-title { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 16px; }
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-links a { font-size: 0.875rem; color: rgba(255,255,255,0.6); text-decoration: none; transition: color 150ms; }
+.footer-links a:hover { color: var(--clr-primary-light); }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: rgba(255,255,255,0.28); flex-wrap: wrap; gap: 8px; }
+.footer-bottom a { color: rgba(255,255,255,0.38); text-decoration: none; }
+.footer-bottom a:hover { color: rgba(255,255,255,0.65); }
+
+/* ── PARALLAX ── */
+[data-px] { will-change: transform; }
+/* Inner image parallax: overflow hidden on card, image overflows top/bottom */
+.project-img { overflow: hidden; }
+.project-img-inner {
+  position: absolute; inset: -20% 0;
+  display: flex; align-items: center; justify-content: center;
+  will-change: transform;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) { .projects-grid { grid-template-columns: 1fr 1fr; } .project-card.featured { grid-column: span 2; } }
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .project-card.featured { grid-column: auto; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+  #hero-scroll-driver { height: 450vh; }
+}
+@media (max-width: 480px) { .footer-top { grid-template-columns: 1fr; } .stats-grid { grid-template-columns: 1fr 1fr; } }
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav id="nav" class="transparent">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-icon">🏗</div>
+      Prairie Build Co.
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#testimonials">Reviews</a></li>
+      <li><a href="#contact" class="btn btn-primary btn-sm">Get a Quote</a></li>
+    </ul>
+    <button class="nav-hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══ SCROLL-DRIVEN VIDEO HERO ═══ -->
+<div id="hero-scroll-driver">
+  <div id="hero-sticky">
+
+    <!-- Three.js renders here -->
+    <canvas id="hero-canvas"></canvas>
+
+    <!-- Dark gradient overlay -->
+    <div id="hero-overlay"></div>
+    <!-- Fade into first section -->
+    <div id="hero-fade"></div>
+
+    <!-- Progress bar -->
+    <div id="video-progress"></div>
+
+    <!-- Hero text -->
+    <div id="hero-content">
+      <div class="container">
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          Winnipeg's Trusted Builder Since 1998
+        </div>
+        <h1 class="hero-title">
+          Built tough.<br>
+          Built for <em>Winnipeg.</em>
+        </h1>
+        <p class="hero-sub">
+          From custom homes to commercial builds, Prairie Build Co. delivers
+          quality construction that stands up to whatever Manitoba throws at it.
+          On time, on budget, built right.
+        </p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn-primary">Get a Free Quote</a>
+          <a href="#services" class="btn btn-ghost">Explore Services</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll hint -->
+    <div class="scroll-hint" id="scroll-hint">
+      <span class="scroll-hint-arrow">↓</span>
+      Scroll to watch
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ TICKER ═══ -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span class="ticker-item">Custom Home Builds</span>
+    <span class="ticker-item">Commercial Construction</span>
+    <span class="ticker-item">Renovations &amp; Additions</span>
+    <span class="ticker-item">Winnipeg &amp; Manitoba</span>
+    <span class="ticker-item">Licensed &amp; Insured</span>
+    <span class="ticker-item">25+ Years Experience</span>
+    <span class="ticker-item">Free Estimates</span>
+    <span class="ticker-item">Custom Home Builds</span>
+    <span class="ticker-item">Commercial Construction</span>
+    <span class="ticker-item">Renovations &amp; Additions</span>
+    <span class="ticker-item">Winnipeg &amp; Manitoba</span>
+    <span class="ticker-item">Licensed &amp; Insured</span>
+    <span class="ticker-item">25+ Years Experience</span>
+    <span class="ticker-item">Free Estimates</span>
+  </div>
+</div>
+
+<!-- ═══ STATS ═══ -->
+<section class="stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-card sr sr-up" data-px="-0.04">
+        <div class="stat-label">Projects Completed</div>
+        <div class="stat-value">600+</div>
+        <div class="stat-note">Across Winnipeg &amp; Manitoba</div>
+        <div class="stat-bar"><div class="stat-bar-fill"></div></div>
+      </div>
+      <div class="stat-card sr sr-up" style="--delay:0.08s" data-px="0.03">
+        <div class="stat-label">Years in Business</div>
+        <div class="stat-value">26</div>
+        <div class="stat-note">Family-owned since 1998</div>
+        <div class="stat-bar"><div class="stat-bar-fill" style="--target:0.65"></div></div>
+      </div>
+      <div class="stat-card sr sr-up" style="--delay:0.14s" data-px="-0.03">
+        <div class="stat-label">Client Satisfaction</div>
+        <div class="stat-value">4.9★</div>
+        <div class="stat-note">Based on 380+ reviews</div>
+        <div class="stat-bar"><div class="stat-bar-fill" style="--target:0.98"></div></div>
+      </div>
+      <div class="stat-card sr sr-up" style="--delay:0.20s" data-px="0.04">
+        <div class="stat-label">On-Time Delivery</div>
+        <div class="stat-value">100%</div>
+        <div class="stat-note">3-year running streak</div>
+        <div class="stat-bar"><div class="stat-bar-fill" style="--target:1.0"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SERVICES ═══ -->
+<section class="services-section" id="services">
+  <div class="container">
+    <div data-px="0.05">
+      <div class="label sr sr-up">What We Build</div>
+      <div class="divider sr"></div>
+      <h2 class="section-title sr sr-up" style="--delay:0.06s">Every project, done right.</h2>
+      <p class="section-sub sr sr-up" style="--delay:0.1s">Whether you're breaking ground on a custom home or expanding your commercial space, our crew has the skills and the track record to deliver.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card sr sr-up" data-px="-0.05">
+        <div class="service-icon">🏠</div>
+        <div class="service-title">Custom Home Construction</div>
+        <p class="service-desc">Your vision, built from the ground up. We handle everything from permits and foundation to the final coat of paint — no subcontractors you don't know about.</p>
+        <span class="service-badge bg-teal">Residential</span>
+      </div>
+      <div class="service-card sr sr-up" style="--delay:0.07s" data-px="0.02">
+        <div class="service-icon">🏢</div>
+        <div class="service-title">Commercial Construction</div>
+        <p class="service-desc">Offices, retail, warehouses, and mixed-use buildings. We work on your schedule to minimize downtime and meet your opening date.</p>
+        <span class="service-badge bg-purple">Commercial</span>
+      </div>
+      <div class="service-card sr sr-up" style="--delay:0.12s" data-px="-0.03">
+        <div class="service-icon">🔨</div>
+        <div class="service-title">Renovations &amp; Additions</div>
+        <p class="service-desc">Transform what you have. Basement finishing, kitchen overhauls, second-story additions — done cleanly and code-compliant every time.</p>
+        <span class="service-badge bg-teal">Residential</span>
+      </div>
+      <div class="service-card sr sr-up" style="--delay:0.17s" data-px="0.05">
+        <div class="service-icon">❄️</div>
+        <div class="service-title">Cold-Climate Expertise</div>
+        <p class="service-desc">Manitoba winters are no joke. We build with proper insulation, thermal breaks, and frost-resistant foundations — so your build lasts decades.</p>
+        <span class="service-badge bg-gold">Specialty</span>
+      </div>
+      <div class="service-card sr sr-up" style="--delay:0.22s" data-px="-0.04">
+        <div class="service-icon">📐</div>
+        <div class="service-title">Design-Build Services</div>
+        <p class="service-desc">One team from concept to completion. Our in-house designers and estimators keep your project aligned and on budget from day one.</p>
+        <span class="service-badge bg-green">Integrated</span>
+      </div>
+      <div class="service-card sr sr-up" style="--delay:0.27s" data-px="0.03">
+        <div class="service-icon">🌿</div>
+        <div class="service-title">Sustainable Builds</div>
+        <p class="service-desc">Net-zero ready designs, high-efficiency envelopes, and locally sourced materials. Build better without sacrificing durability or budget.</p>
+        <span class="service-badge bg-green">Green</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROCESS ═══ -->
+<section class="process-section" id="process">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start">
+      <div data-px="0.06">
+        <div class="label sr sr-left">How It Works</div>
+        <div class="divider sr"></div>
+        <h2 class="section-title sr sr-left" style="--delay:0.06s">Simple process.<br>No surprises.</h2>
+        <p class="section-sub sr sr-left" style="--delay:0.1s">We've refined our process over 26 years to keep you informed at every stage and deliver exactly what was agreed on.</p>
+        <a href="#contact" class="btn btn-primary sr sr-left" style="--delay:0.14s">Start Your Project →</a>
+      </div>
+      <div class="process-list" data-px="-0.04">
+        <div class="process-item sr sr-right">
+          <div class="process-num-col"><div class="process-num">01</div></div>
+          <div class="process-body">
+            <div class="process-title">Free Consultation &amp; Estimate</div>
+            <p class="process-desc">We meet on-site (or via video), listen to your goals, and provide a detailed written estimate — no obligations, no pressure.</p>
+          </div>
+        </div>
+        <div class="process-item sr sr-right" style="--delay:0.08s">
+          <div class="process-num-col"><div class="process-num">02</div></div>
+          <div class="process-body">
+            <div class="process-title">Design &amp; Permitting</div>
+            <p class="process-desc">Our team handles drawings, City of Winnipeg permits, and any engineering sign-offs. You review and approve before we touch a shovel.</p>
+          </div>
+        </div>
+        <div class="process-item sr sr-right" style="--delay:0.14s">
+          <div class="process-num-col"><div class="process-num">03</div></div>
+          <div class="process-body">
+            <div class="process-title">Construction Begins</div>
+            <p class="process-desc">Weekly site reports, a dedicated project manager, and our online portal keep you in the loop every step of the way.</p>
+          </div>
+        </div>
+        <div class="process-item sr sr-right" style="--delay:0.20s">
+          <div class="process-num-col"><div class="process-num">04</div></div>
+          <div class="process-body">
+            <div class="process-title">Final Walkthrough &amp; Handover</div>
+            <p class="process-desc">We walk the finished project with you, address any deficiencies on the spot, and hand over keys with a 2-year workmanship warranty.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROJECTS ═══ -->
+<section class="projects-section" id="projects">
+  <div class="container">
+    <div data-px="0.05">
+      <div class="label sr sr-up">Our Work</div>
+      <div class="divider sr"></div>
+      <h2 class="section-title sr sr-up" style="--delay:0.06s">Recent projects.</h2>
+      <p class="section-sub sr sr-up" style="--delay:0.1s">A sample of what we've built across Winnipeg and the surrounding area.</p>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card proj-1 featured sr sr-left" data-px="-0.03">
+        <div class="project-img">
+          <div class="project-img-inner" data-px-inner="0.12">🏠</div>
+          <span class="project-tag">Custom Home</span>
+        </div>
+        <div class="project-body">
+          <div class="project-title">Charleswood Net-Zero Residence</div>
+          <div class="project-meta">4,200 sq ft · Charleswood, Winnipeg · Completed 2024</div>
+        </div>
+      </div>
+      <div class="project-card proj-2 sr sr-right" data-px="0.04">
+        <div class="project-img">
+          <div class="project-img-inner" data-px-inner="0.12">🏢</div>
+          <span class="project-tag">Commercial</span>
+        </div>
+        <div class="project-body">
+          <div class="project-title">Inkster Industrial Unit</div>
+          <div class="project-meta">12,000 sq ft · Inkster · 2024</div>
+        </div>
+      </div>
+      <div class="project-card proj-3 sr sr-left" style="--delay:0.08s" data-px="-0.02">
+        <div class="project-img">
+          <div class="project-img-inner" data-px-inner="0.12">🔨</div>
+          <span class="project-tag">Renovation</span>
+        </div>
+        <div class="project-body">
+          <div class="project-title">River Heights Whole-Home Reno</div>
+          <div class="project-meta">2,800 sq ft · River Heights · 2024</div>
+        </div>
+      </div>
+      <div class="project-card proj-4 sr sr-right" style="--delay:0.12s" data-px="0.05">
+        <div class="project-img">
+          <div class="project-img-inner" data-px-inner="0.12">🏗</div>
+          <span class="project-tag">Mixed-Use</span>
+        </div>
+        <div class="project-body">
+          <div class="project-title">Exchange District Live-Work Lofts</div>
+          <div class="project-meta">18 units · Exchange District · 2023</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TESTIMONIALS ═══ -->
+<section class="testimonials-section" id="testimonials">
+  <div class="container">
+    <div data-px="0.05">
+      <div class="label sr sr-up">What Clients Say</div>
+      <div class="divider sr"></div>
+      <h2 class="section-title sr sr-up" style="--delay:0.06s">Don't take our word for it.</h2>
+      <p class="section-sub sr sr-up" style="--delay:0.1s">We've built lasting relationships with homeowners and developers across Winnipeg.</p>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card sr sr-up" data-px="-0.05">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"Prairie Build managed our full custom home build in Charleswood. They were honest about timelines, never surprised us with extra costs, and the craftsmanship is outstanding."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">SK</div>
+          <div><div class="testimonial-name">Sandra Kowalski</div><div class="testimonial-role">Homeowner · Charleswood</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card sr sr-up" style="--delay:0.08s" data-px="0.02">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"We hired Prairie Build to expand our warehouse on Inkster. They worked around our operating schedule, finished two weeks early, and came in under budget."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">MT</div>
+          <div><div class="testimonial-name">Marcus Thiessen</div><div class="testimonial-role">Owner · Thiessen Logistics</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card sr sr-up" style="--delay:0.14s" data-px="-0.04">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"From the first site visit to handing over the keys, the team was professional and communicative. The weekly reports kept us in the loop without us having to chase anyone."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">JP</div>
+          <div><div class="testimonial-name">Jenna &amp; Paul Oduya</div><div class="testimonial-role">Homeowners · River Heights</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section class="cta-section" id="contact">
+  <div class="cta-inner sr sr-scale" data-px="0.04">
+    <div class="cta-eyebrow">Get in Touch</div>
+    <h2 class="cta-title">Ready to break ground?</h2>
+    <p class="cta-sub">Tell us about your project and we'll get back to you within one business day with a free, no-obligation estimate.</p>
+    <div class="cta-actions">
+      <a href="tel:+12045550100" class="btn btn-white">📞 (204) 555-0100</a>
+      <a href="mailto:hello@prairiebuild.ca" class="btn btn-outline-white">✉ hello@prairiebuild.ca</a>
+    </div>
+    <p class="cta-note">Serving Winnipeg, Steinbach, Portage la Prairie, and surrounding Manitoba communities.</p>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo"><div class="footer-logo-icon">🏗</div>Prairie Build Co.</div>
+        <p class="footer-desc">Quality construction for Winnipeg and Manitoba since 1998. Licensed, insured, and proud to build in the prairies.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Facebook">f</a>
+          <a href="#" aria-label="Instagram">◉</a>
+          <a href="#" aria-label="Houzz">H</a>
+          <a href="#" aria-label="LinkedIn">in</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Services</div>
+        <ul class="footer-links">
+          <li><a href="#">Custom Homes</a></li>
+          <li><a href="#">Commercial Builds</a></li>
+          <li><a href="#">Renovations</a></li>
+          <li><a href="#">Design-Build</a></li>
+          <li><a href="#">Sustainable Builds</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <ul class="footer-links">
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Our Process</a></li>
+          <li><a href="#">Projects</a></li>
+          <li><a href="#">Careers</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Contact</div>
+        <ul class="footer-links">
+          <li><a href="#">Get a Quote</a></li>
+          <li><a href="#">(204) 555-0100</a></li>
+          <li><a href="#">hello@prairiebuild.ca</a></li>
+          <li><a href="#">123 McPhillips St, Winnipeg</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Prairie Build Co. All rights reserved.</span>
+      <div style="display:flex;gap:16px">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms</a>
+        <a href="#">MB Contractor Lic. #MB-2481</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══ THREE.JS ═══ -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js"
+  }
+}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+
+/* ─────────────────────────────────────────────────────
+   FRAME-EXTRACTION APPROACH
+   Instead of seeking video.currentTime on every scroll
+   event (which re-triggers decode each time = choppy),
+   we pre-decode every frame into an ImageBitmap array
+   during a one-time load phase. Scroll then becomes a
+   simple array-index lookup + drawImage — zero decode
+   latency, perfectly smooth in both directions.
+───────────────────────────────────────────────────── */
+
+const VIDEO_URL  = 'https://d8j0ntlcm91z4.cloudfront.net/user_3EjMedjA9T4i7rgdd5fK2z6G1er/hf_20260605_194441_edc6d425-f0c1-4212-915e-6c71acf66b90.mp4';
+const NUM_FRAMES = 120; // ~24fps for a 5s clip — adjust up/down to trade memory for smoothness
+
+// ── Loading overlay ──
+const loadOverlay = document.createElement('div');
+loadOverlay.id = 'frame-loader';
+loadOverlay.innerHTML = `
+  <div class="fl-inner">
+    <div class="fl-ring"></div>
+    <div class="fl-label">Loading experience…</div>
+    <div class="fl-bar-wrap"><div class="fl-bar-fill" id="fl-fill"></div></div>
+  </div>`;
+document.getElementById('hero-sticky').appendChild(loadOverlay);
+
+const style = document.createElement('style');
+style.textContent = `
+  #frame-loader {
+    position: absolute; inset: 0; z-index: 50;
+    background: linear-gradient(160deg, #0a1220 0%, #0d2e2a 60%, #060b10 100%);
+    display: flex; align-items: center; justify-content: center;
+    transition: opacity 0.8s ease-out;
+  }
+  #frame-loader.done { opacity: 0; pointer-events: none; }
+  .fl-inner { display:flex; flex-direction:column; align-items:center; gap:20px; }
+  .fl-ring {
+    width: 48px; height: 48px; border-radius: 50%;
+    border: 3px solid rgba(76,172,156,0.2);
+    border-top-color: #4cac9c;
+    animation: spin 0.9s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .fl-label { font-family: 'Lexend', sans-serif; font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+  .fl-bar-wrap { width: 200px; height: 3px; border-radius: 2px; background: rgba(255,255,255,0.1); overflow: hidden; }
+  .fl-bar-fill { height: 100%; border-radius: 2px; background: #4cac9c; width: 0%; transition: width 0.15s ease-out; }
+`;
+document.head.appendChild(style);
+
+// ── Three.js setup ──
+const canvas   = document.getElementById('hero-canvas');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+const scene  = new THREE.Scene();
+const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+
+// Offscreen canvas — frame extraction draws here, CanvasTexture reads from it
+const offscreen = document.createElement('canvas');
+offscreen.width  = 1280;
+offscreen.height = 720;
+const offCtx = offscreen.getContext('2d');
+
+const canvasTex = new THREE.CanvasTexture(offscreen);
+canvasTex.minFilter = THREE.LinearFilter;
+canvasTex.magFilter = THREE.LinearFilter;
+
+// Cover-crop UV helper (recomputed on resize)
+let cropRepeat = new THREE.Vector2(1, 1);
+let cropOffset = new THREE.Vector2(0, 0);
+
+const vert = `
+  varying vec2 vUv;
+  void main() { vUv = uv; gl_Position = vec4(position, 1.0); }
+`;
+const frag = `
+  varying vec2 vUv;
+  uniform sampler2D uTex;
+  uniform vec2 uRepeat;
+  uniform vec2 uOffset;
+  uniform float uReady;
+
+  vec3 gradTop    = vec3(0.06, 0.08, 0.10);  /* dark charcoal */
+  vec3 gradMid    = vec3(0.14, 0.10, 0.06);  /* warm dark brown */
+  vec3 gradBottom = vec3(0.04, 0.04, 0.05);  /* near black */
+
+  void main() {
+    float t = vUv.y;
+    vec3 bg = mix(gradBottom, mix(gradMid, gradTop, smoothstep(0.3, 0.72, t)), t);
+    if (uReady > 0.5) {
+      vec2 uv = vUv * uRepeat + uOffset;
+      vec4 frame = texture2D(uTex, uv);
+      bg = mix(bg, frame.rgb, 0.94);
+    }
+    gl_FragColor = vec4(bg, 1.0);
+  }
+`;
+
+const mat = new THREE.ShaderMaterial({
+  vertexShader: vert, fragmentShader: frag,
+  uniforms: {
+    uTex:    { value: canvasTex },
+    uRepeat: { value: cropRepeat },
+    uOffset: { value: cropOffset },
+    uReady:  { value: 0.0 },
+  },
+  depthWrite: false,
+});
+scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2, 2), mat));
+
+// ── Resize ──
+function resize() {
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  renderer.setSize(w, h, false);
+  const vidAspect    = offscreen.width / offscreen.height;
+  const screenAspect = w / h;
+  if (screenAspect > vidAspect) {
+    cropRepeat.set(1, vidAspect / screenAspect);
+    cropOffset.set(0, (1 - cropRepeat.y) / 2);
+  } else {
+    cropRepeat.set(screenAspect / vidAspect, 1);
+    cropOffset.set((1 - cropRepeat.x) / 2, 0);
+  }
+}
+window.addEventListener('resize', resize);
+resize();
+
+// ── Frame extraction ──
+let frames = [];    // ImageBitmap[]
+let ready  = false;
+
+async function seekTo(vid, t) {
+  return new Promise(res => {
+    const handler = () => { vid.removeEventListener('seeked', handler); res(); };
+    vid.addEventListener('seeked', handler);
+    vid.currentTime = t;
+  });
+}
+
+async function extractFrames() {
+  const vid = document.createElement('video');
+  vid.src         = VIDEO_URL;
+  vid.crossOrigin = 'anonymous';
+  vid.muted       = true;
+  vid.playsInline = true;
+  vid.preload     = 'auto';
+
+  await new Promise(res => {
+    vid.addEventListener('loadedmetadata', res, { once: true });
+    vid.load();
+  });
+
+  const dur   = vid.duration;
+  const fill  = document.getElementById('fl-fill');
+
+  for (let i = 0; i < NUM_FRAMES; i++) {
+    const t = (i / (NUM_FRAMES - 1)) * dur;
+    await seekTo(vid, t);
+    frames.push(await createImageBitmap(vid));
+    if (fill) fill.style.width = ((i + 1) / NUM_FRAMES * 100) + '%';
+  }
+
+  // draw frame 0 so something shows immediately
+  offCtx.drawImage(frames[0], 0, 0, offscreen.width, offscreen.height);
+  canvasTex.needsUpdate = true;
+  mat.uniforms.uReady.value = 1.0;
+  ready = true;
+
+  // fade out loader
+  loadOverlay.classList.add('done');
+  setTimeout(() => loadOverlay.remove(), 900);
+}
+
+extractFrames();
+
+// ── Direction-triggered auto-play ─────────────────────────────
+// Scrolling down fires the full video forward; scrolling up
+// fires it in reverse — regardless of how far the user scrolls.
+// We drive window.scrollY programmatically so the sticky hero
+// exits/enters naturally once playback is done.
+const driver      = document.getElementById('hero-scroll-driver');
+const progressBar = document.getElementById('video-progress');
+const scrollHint  = document.getElementById('scroll-hint');
+const nav         = document.getElementById('nav');
+const heroContent = document.getElementById('hero-content');
+
+let progress   = 0;      // 0–1 video progress
+let isPlaying  = false;
+let playDir    = 0;      // 1 = forward, -1 = reverse
+let playStart  = null;   // timestamp when current play began
+let playFrom   = 0;      // progress value at play start
+const DURATION = 1.5;   // seconds for a full 0→1 traversal
+
+function maxScroll() { return driver.offsetHeight - window.innerHeight; }
+function inHeroZone() { return window.scrollY < maxScroll() + 4; }
+
+function easeInOut(t) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }
+
+function startPlay(dir) {
+  if (isPlaying && playDir === dir) return; // already going this way
+  playDir   = dir;
+  isPlaying = true;
+  playStart = null;  // will be set on first tick
+  playFrom  = progress;
+}
+
+function updateHeroUI(p) {
+  const viewH     = window.innerHeight;
+  const parallaxY = p * viewH * 0.28;
+  const fadeStart = 0.38;
+  const opacity   = p < fadeStart ? 1 : Math.max(0, 1 - (p - fadeStart) / 0.22);
+  heroContent.style.transform = `translateY(-${parallaxY}px)`;
+  heroContent.style.opacity   = opacity;
+  progressBar.style.width     = (p * 100) + '%';
+  scrollHint.classList.toggle('hidden', p > 0.02 || !inHeroZone());
+  nav.className = inHeroZone() ? 'transparent' : 'solid';
+}
+
+// Wheel: single scroll down → play forward; single scroll up → play reverse
+document.addEventListener('wheel', e => {
+  if (!inHeroZone()) return;
+  const dir = e.deltaY > 0 ? 1 : -1;
+  if (dir === 1 && progress < 1) { e.preventDefault(); startPlay(1); }
+  if (dir === -1 && progress > 0) { e.preventDefault(); startPlay(-1); }
+}, { passive: false });
+
+// Touch support
+let touchY0 = 0;
+document.addEventListener('touchstart', e => { touchY0 = e.touches[0].clientY; }, { passive: true });
+document.addEventListener('touchmove', e => {
+  if (!inHeroZone()) return;
+  const dy  = touchY0 - e.touches[0].clientY;
+  if (Math.abs(dy) < 8) return;
+  const dir = dy > 0 ? 1 : -1;
+  touchY0   = e.touches[0].clientY;
+  if (dir === 1 && progress < 1) { e.preventDefault(); startPlay(1); }
+  if (dir === -1 && progress > 0) { e.preventDefault(); startPlay(-1); }
+}, { passive: false });
+
+// Sync nav when user scrolls freely past the hero
+window.addEventListener('scroll', () => {
+  if (!isPlaying) {
+    nav.className = inHeroZone() ? 'transparent' : 'solid';
+    scrollHint.classList.toggle('hidden', window.scrollY > 10);
+  }
+}, { passive: true });
+
+// ── Render loop ──
+let lastT        = 0;
+let lastFrameIdx = -1;
+
+function tick(now) {
+  requestAnimationFrame(tick);
+  lastT = lastT || now;
+  lastT = now;
+
+  if (ready && frames.length > 0) {
+    if (isPlaying) {
+      if (!playStart) playStart = now;
+
+      const elapsed = (now - playStart) / 1000;
+      // Scale duration by how far we actually need to travel
+      const span = Math.max(playDir === 1 ? (1 - playFrom) : playFrom, 0.001);
+      const dur  = DURATION * span;
+      const t    = Math.min(elapsed / dur, 1);
+      const e2   = easeInOut(t);
+
+      progress = playDir === 1
+        ? playFrom + span * e2
+        : playFrom - span * e2;
+      progress = Math.max(0, Math.min(1, progress));
+
+      // Drive scroll to match so sticky exits naturally when done
+      window.scrollTo(0, progress * maxScroll());
+
+      updateHeroUI(progress);
+
+      // Finished?
+      if (t >= 1) {
+        progress  = playDir === 1 ? 1 : 0;
+        isPlaying = false;
+        playStart = null;
+        updateHeroUI(progress);
+      }
+    }
+
+    // Draw the correct frame
+    const idx = Math.round(progress * (frames.length - 1));
+    if (idx !== lastFrameIdx) {
+      lastFrameIdx = idx;
+      offCtx.drawImage(frames[idx], 0, 0, offscreen.width, offscreen.height);
+      canvasTex.needsUpdate = true;
+    }
+  }
+
+  renderer.render(scene, camera);
+}
+requestAnimationFrame(tick);
+
+// ── Scroll reveal ──
+const srEls = document.querySelectorAll('.sr');
+srEls.forEach(el => {
+  const d = el.style.getPropertyValue('--delay');
+  if (d) el.style.transitionDelay = d;
+});
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (!e.isIntersecting) return; e.target.classList.add('in'); io.unobserve(e.target); });
+}, { threshold: 0.14, rootMargin: '0px 0px -40px 0px' });
+srEls.forEach(el => io.observe(el));
+
+document.querySelectorAll('.divider').forEach(el => {
+  const dIo = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); dIo.unobserve(e.target); } });
+  }, { threshold: 0.5 });
+  dIo.observe(el);
+});
+
+document.querySelectorAll('.stat-card').forEach((card, i) => {
+  const sIo = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const fill = e.target.querySelector('.stat-bar-fill');
+      if (fill) {
+        const targets = [0.82, 0.65, 0.98, 1.0];
+        fill.style.transition = `transform 0.8s ${i * 0.08}s cubic-bezier(.22,1,.36,1)`;
+        fill.style.transformOrigin = 'left';
+        fill.style.transform = `scaleX(${targets[i] || 0.7})`;
+      }
+      sIo.unobserve(e.target);
+    });
+  }, { threshold: 0.3 });
+  sIo.observe(card);
+});
+
+document.querySelectorAll('.services-grid, .projects-grid, .testimonials-grid, .stats-grid').forEach(grid => {
+  Array.from(grid.children).forEach((card, i) => {
+    if (!card.style.transitionDelay) card.style.transitionDelay = `${i * 0.07}s`;
+  });
+});
+
+// ── Site-wide parallax engine ──────────────────────────────
+// Uses rAF throttling. Elements with data-px get a translateY
+// proportional to their distance from the viewport centre.
+// Elements with data-px-inner get the same but are used for
+// inner-image parallax inside overflow:hidden containers.
+// Both bypass the sr reveal transition by operating ONLY after
+// the element (or its closest sr ancestor) has gained .in,
+// and by removing the transform transition from data-px elements
+// after reveal so motion is immediate.
+(function initSiteParallax() {
+  const pxEls    = [...document.querySelectorAll('[data-px]')];
+  const innerEls = [...document.querySelectorAll('[data-px-inner]')];
+  const vh = () => window.innerHeight;
+
+  // Track which elements have been revealed so we start parallax
+  const revealed = new WeakSet();
+
+  // Once an sr element reveals (.in added), strip its transform
+  // transition so subsequent JS transforms are instant
+  const stripTransition = el => {
+    el.style.transition = el.style.transition
+      .replace(/,?\s*transform[^,]*/g, '')
+      .trim().replace(/^,/, '').trim();
+  };
+
+  // Mutation observer watches for .in being added to sr elements
+  const mo = new MutationObserver(mutations => {
+    mutations.forEach(m => {
+      if (m.type === 'attributes' && m.attributeName === 'class') {
+        const el = m.target;
+        if (el.classList.contains('in') && el.dataset.px !== undefined) {
+          revealed.add(el);
+          // small delay to let the reveal transition finish first
+          setTimeout(() => stripTransition(el), 650);
+        }
+      }
+    });
+  });
+
+  pxEls.forEach(el => {
+    // Elements that aren't sr start immediately
+    if (!el.classList.contains('sr')) {
+      revealed.add(el);
+    } else {
+      mo.observe(el, { attributes: true });
+    }
+  });
+
+  let rafId = null;
+  function update() {
+    rafId = null;
+    const half = vh() / 2;
+
+    // Outer card/section parallax
+    pxEls.forEach(el => {
+      if (!revealed.has(el)) return;
+      const rect  = el.getBoundingClientRect();
+      const speed = parseFloat(el.dataset.px);
+      const dist  = (rect.top + rect.height * 0.5) - half;
+      el.style.transform = `translateY(${dist * speed}px)`;
+    });
+
+    // Inner image parallax (moves opposite direction for depth)
+    innerEls.forEach(el => {
+      const rect  = el.getBoundingClientRect();
+      const speed = parseFloat(el.dataset.pxInner);
+      const dist  = (rect.top + rect.height * 0.5) - half;
+      el.style.transform = `translateY(${dist * speed}px)`;
+    });
+  }
+
+  const onScroll = () => { if (!rafId) rafId = requestAnimationFrame(update); };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update();
+})();
+</script>
+
+</body>
+</html>
