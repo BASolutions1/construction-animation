@@ -109,8 +109,14 @@ nav.transparent .nav-hamburger span { background: #fff; }
 nav.solid       .nav-hamburger span { background: var(--clr-text-primary); }
 
 /* ── HERO ── */
-#hero-scroll-driver { height: 600vh; position: relative; }
-#hero-sticky        { position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden; }
+/* Use svh (small viewport height) so iOS Safari browser chrome doesn't cut off the hero */
+#hero-scroll-driver { height: 600svh; position: relative; }
+#hero-sticky        { position: sticky; top: 0; height: 100svh; width: 100%; overflow: hidden; }
+/* Fallback for browsers that don't support svh */
+@supports not (height: 1svh) {
+  #hero-scroll-driver { height: 600vh; }
+  #hero-sticky        { height: 100vh; }
+}
 #hero-canvas        { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 #hero-overlay {
   position: absolute; inset: 0; pointer-events: none;
@@ -255,15 +261,46 @@ footer         { background: var(--clr-dark); color: #fff; padding: 72px 24px 36
   .projects-grid { grid-template-columns: 1fr 1fr; }
   .project-card.featured { grid-column: span 2; }
 }
+
 @media (max-width: 768px) {
   .nav-links { display: none; }
   .nav-hamburger { display: flex; }
+
+  /* Hero */
+  #hero-scroll-driver { height: 450svh; }
+  @supports not (height: 1svh) { #hero-scroll-driver { height: 450vh; } }
+  .hero-title { font-size: clamp(2.25rem, 9vw, 3.5rem); }
+  #hero-content { padding: 0 16px 48px; }
+
+  /* Process: stack to single column on mobile */
+  .process-cols { grid-template-columns: 1fr !important; gap: 40px !important; }
+
+  /* Projects */
   .projects-grid { grid-template-columns: 1fr; }
   .project-card.featured { grid-column: auto; }
+
+  /* Services */
+  .services-grid { grid-template-columns: 1fr; }
+
+  /* Footer */
   .footer-top { grid-template-columns: 1fr 1fr; }
-  #hero-scroll-driver { height: 450vh; }
+
+  /* Sections: tighter padding on mobile */
+  .stats-section,
+  .services-section,
+  .process-section,
+  .projects-section,
+  .testimonials-section { padding: 56px 0; }
+  .cta-section { padding: 64px 16px; }
+
+  /* Typography */
+  .section-title { font-size: clamp(1.5rem, 6vw, 2rem); }
+  .section-sub   { font-size: 0.9375rem; margin-bottom: 32px; }
 }
+
 @media (max-width: 480px) {
-  .footer-top { grid-template-columns: 1fr; }
-  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .footer-top  { grid-template-columns: 1fr; }
+  .stats-grid  { grid-template-columns: 1fr 1fr; }
+  .nav-inner   { padding: 0 16px; }
+  .container   { padding: 0 16px; }
 }

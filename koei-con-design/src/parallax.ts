@@ -8,6 +8,10 @@ type ParallaxEl = { el: HTMLElement; speed: number; revealed: boolean }
 type InnerEl    = { el: HTMLElement; speed: number }
 
 export function initParallax(): void {
+  // Skip parallax on mobile — causes jank on lower-end devices
+  // and users can't perceive depth effects on small screens anyway
+  if (window.matchMedia('(max-width: 768px)').matches) return
+
   const outerEls: ParallaxEl[] = Array.from(
     document.querySelectorAll<HTMLElement>('[data-px]')
   ).map(el => ({
