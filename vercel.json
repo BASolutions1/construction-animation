@@ -1,0 +1,5 @@
+{
+  "buildCommand": "cd koei-con-design && npm install && npm run build",
+  "outputDirectory": "koei-con-design/dist",
+  "framework": null
+}
